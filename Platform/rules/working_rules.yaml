@@ -1,0 +1,27 @@
+require_ticket: true
+ticket_regex: '([A-Z]{2,}-[0-9]+)'
+forbidden_patterns:
+  - '\.env$'
+  - '\.(key|pem|p12|pfx)$'
+messages:
+  block_file: '[pre-commit][BLOCK] Sensitive file staged (*.key|*.pem|*.p12|*.pfx|.env). Remove or encrypt.'
+  block_pattern: '[pre-commit][BLOCK] Forbidden content detected.'
+  block_ticket: '[commit-msg][BLOCK] Missing ticket ID.'
+- id: one-command-rule
+  description: "Enforce maximum one command per message"
+  pattern: ".*&&.*|;.*"
+  action: block
+  message: "[BEHAVIOR][BLOCK] Multiple commands detected. Use only one command per message."
+  scope: global
+- id: permit-required-rule
+  description: "Block any command unless explicit permit is granted"
+  pattern: ".*"
+  action: block
+  message: "[BEHAVIOR][BLOCK] Commands are forbidden without prior permit."
+  scope: global
+- id: enterprise-only-rule
+  description: "Force enterprise-grade responses only"
+  pattern: ".*"
+  action: block
+  message: "[BEHAVIOR][BLOCK] Only enterprise-grade phrasing is permitted. Casual or personal language is forbidden."
+  scope: global
