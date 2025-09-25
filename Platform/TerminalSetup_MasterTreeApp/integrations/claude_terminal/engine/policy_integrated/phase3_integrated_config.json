@@ -1,0 +1,122 @@
+{
+  "version": 3,
+  "enterprise_policy": {
+    "risk_engine": {
+      "enabled": true,
+      "ml_anomaly_detection": true,
+      "risk_thresholds": {
+        "low": 0.2,
+        "medium": 0.4,
+        "high": 0.7,
+        "critical": 0.9
+      },
+      "behavioral_analysis_enabled": true,
+      "behavioral_lookback_days": 30,
+      "model_version": "v1"
+    },
+    "approval_workflows": {
+      "enabled": true,
+      "multi_level_approval": true,
+      "escalation_sla_hours": 4,
+      "emergency_override": true,
+      "servicenow": {
+        "enabled": false
+      }
+    },
+    "enterprise_integrations": {
+      "servicenow": {
+        "enabled": false
+      },
+      "threat_intelligence": {
+        "enabled": true,
+        "feeds": [
+          "builtin"
+        ],
+        "update_interval_hours": 6
+      }
+    },
+    "compliance": {
+      "sox_logging": true,
+      "pci_dss_audit": true,
+      "gdpr_data_protection": true,
+      "retention_days": 2555,
+      "encryption_at_rest": true,
+      "hmac_key_env": "PHASE3_COMPLIANCE_HMAC_KEY"
+    }
+  },
+  "risk_policies": [
+    {
+      "name": "critical_system_destruction",
+      "pattern": "rm\\s+-rf\\s+(/|/etc|/usr|/bin|/sbin|/System|/Library)(\\b|/)",
+      "base_risk": 1.0,
+      "context_factors": [],
+      "approval_required": true,
+      "description": "Commands that destroy critical system directories"
+    },
+    {
+      "name": "remote_script_execution",
+      "pattern": "(curl|wget|fetch).*\\|\\s*(sh|bash|python|perl)\\b",
+      "base_risk": 0.98,
+      "context_factors": [],
+      "approval_required": true,
+      "description": "Remote script execution patterns"
+    },
+    {
+      "name": "disk_operations",
+      "pattern": "dd\\s+(if|of)=.*(/dev/|/)",
+      "base_risk": 0.95,
+      "context_factors": [],
+      "approval_required": true,
+      "description": "Direct disk operations"
+    },
+    {
+      "name": "system_modification",
+      "pattern": "(rm|mv|cp).*\\s/(etc|usr/bin|System|Library)(/|\\b)",
+      "base_risk": 0.85,
+      "context_factors": [
+        "time_of_day",
+        "user_role"
+      ],
+      "approval_required": true,
+      "description": "Commands that modify critical system directories"
+    },
+    {
+      "name": "privilege_escalation",
+      "pattern": "^(sudo|su|doas)\\b",
+      "base_risk": 0.8,
+      "context_factors": [
+        "time_of_day",
+        "user_role"
+      ],
+      "approval_required": true,
+      "description": "Commands that escalate privileges"
+    },
+    {
+      "name": "network_access",
+      "pattern": "(curl|wget|ssh|scp|rsync|nc)\\b",
+      "base_risk": 0.35,
+      "context_factors": [
+        "time_of_day",
+        "user_location"
+      ],
+      "approval_required": false,
+      "description": "Commands that access network resources"
+    },
+    {
+      "name": "data_export",
+      "pattern": ".*\\b(backup|export|dump|tar|zip)\\b.*",
+      "base_risk": 0.6,
+      "context_factors": [
+        "user_role"
+      ],
+      "approval_required": true,
+      "description": "Commands that may export or backup sensitive data"
+    }
+  ],
+  "phase2_integration": {
+    "jwt_auth_enabled": false,
+    "rate_limiting_enabled": false,
+    "monitoring_enabled": false,
+    "secrets_manager_enabled": false
+  }
+}
