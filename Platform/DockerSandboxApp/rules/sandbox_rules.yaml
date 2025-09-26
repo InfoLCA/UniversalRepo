@@ -1,0 +1,5 @@
+- id: sandbox-global
+  description: "Global sandbox enforcement baseline"
+  pattern: ".*"
+  action: monitor
+  message: "[SANDBOX][MONITOR] All actions within DockerSandboxApp are subject to enterprise guardrails."

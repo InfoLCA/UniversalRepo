@@ -1,0 +1,7 @@
+project: DockerSandboxApp
+created: 2025-09-26T16:29:08Z
+maintainer: Yassers-iMac
+compliance:
+  - enterprise: true
+  - retention: enforced
+  - immutability: partial
