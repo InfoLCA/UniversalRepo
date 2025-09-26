@@ -1,0 +1,20 @@
+version: 1
+lanes:
+  - id: auto-low
+    description: "Auto-approve: read/list/format inside /workspace"
+    match:
+      - type: fs_read
+      - type: list
+      - type: format
+    require_human: false
+  - id: human-change
+    description: "Human approval: write/delete/rename or any network egress"
+    match:
+      - type: fs_write
+      - type: fs_delete
+      - type: refactor
+      - type: network_egress
+    require_human: true
+fallback:
+  on_policy_engine_down: "block"
+  on_approver_unavailable: "block"

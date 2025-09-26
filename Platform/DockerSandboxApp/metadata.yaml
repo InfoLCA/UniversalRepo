@@ -5,3 +5,28 @@ compliance:
   - enterprise: true
   - retention: enforced
   - immutability: partial
+# DockerSandboxApp Metadata (Phase 0 — Enterprise Baseline)
+
+project:
+  name: DockerSandboxApp
+  description: Secure sandbox for AI workflows, packaged as a macOS app
+  version: 0.1.0
+  owner: Yasser Aly
+  repository: https://github.com/InfoLCA/UniversalRepo
+
+compliance:
+  enterprise_grade: true
+  initialized_at: "{{ date -u +%Y-%m-%dT%H:%M:%SZ }}"
+  timezone: "America/New_York"
+  state_lock: ".state/docker_sandbox_progress.md"
+
+phases:
+  total: 12
+  current: 0
+  status: "initialized"
+
+integrity:
+  checksum_algorithm: sha256
+  locks_enabled: true
+
+glossary_ref: README.md#glossary

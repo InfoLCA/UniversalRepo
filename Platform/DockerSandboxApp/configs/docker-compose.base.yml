@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  sandbox:
+    image: python:3.11-slim
+    container_name: docker-sandbox-app
+    network_mode: "none"   # fail-closed default
+    working_dir: /workspace
+    env_file:
+      - ./configs/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    volumes:
+      - ${SANDBOX_HOST_DIR:?err}/:/workspace:rw
+    command: ["bash","-lc","sleep infinity"]
