@@ -74,3 +74,4 @@ test -f /Volumes/MySSD/.NOVACORE_OK && echo OK_sentinel
 ## SSD Bootstrap Releases
 - [v2.0.0](https://github.com/InfoLCA/UniversalRepo/releases/tag/ssd-bootstrap-v2.0.0)
 - [v1.0.0](https://github.com/InfoLCA/UniversalRepo/releases/tag/ssd-bootstrap-v1.0.0)
+<!-- coderabbit smoke test 2026-04-26 -->
